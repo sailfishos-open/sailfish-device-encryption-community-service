@@ -50,6 +50,6 @@ QString Service::RecoveryPassword(QString id, const QDBusMessage &message)
 bool Service::RemoveRecoveryPasswordCopy(QString id, const QDBusMessage &message)
 {
   DevEnc::Device *d = DevEnc::DeviceList::instance()->device(id);
-  DEVCHECK(d, QString());
+  DEVCHECK(d, false);
   return d->removeRecoveryPasswordCopy();
 }
