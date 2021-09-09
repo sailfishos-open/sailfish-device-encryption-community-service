@@ -53,3 +53,17 @@ bool Service::RemoveRecoveryPasswordCopy(QString id, const QDBusMessage &message
   DEVCHECK(d, false);
   return d->removeRecoveryPasswordCopy();
 }
+
+int Service::FreePasswordSlots(QString id, const QDBusMessage &message)
+{
+  DevEnc::Device *d = DevEnc::DeviceList::instance()->device(id);
+  DEVCHECK(d, 0);
+  return d->freePasswordSlots();
+}
+
+int Service::UsedPasswordSlots(QString id, const QDBusMessage &message)
+{
+  DevEnc::Device *d = DevEnc::DeviceList::instance()->device(id);
+  DEVCHECK(d, 0);
+  return d->usedPasswordSlots();
+}

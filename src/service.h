@@ -26,6 +26,9 @@ public slots:
   QString RecoveryPassword(QString id, const QDBusMessage &message);
   bool RemoveRecoveryPasswordCopy(QString id, const QDBusMessage &message);
 
+  int FreePasswordSlots(QString id, const QDBusMessage &message);
+  int UsedPasswordSlots(QString id, const QDBusMessage &message);
+
 signals:
 
 };
