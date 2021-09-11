@@ -61,3 +61,5 @@ install(DIRECTORY translations
 # dbus
 install(FILES dbus/org.sailfishos.open.device.encryption.conf
     DESTINATION share/dbus-1/system.d)
+install(FILES dbus/org.sailfishos.open.device.encryption.service
+    DESTINATION share/dbus-1/system-services)

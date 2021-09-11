@@ -1,0 +1,6 @@
+[Unit]
+Description=Device Encryption Service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/sailfish-device-encryption-community-service

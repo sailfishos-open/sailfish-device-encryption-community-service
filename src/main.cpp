@@ -1,4 +1,5 @@
 #include <QCoreApplication>
+#include <QTimer>
 #include <QtDBus/QtDBus>
 
 #include <signal.h>
@@ -31,6 +32,14 @@ int main(int argc, char **argv)
   signal(SIGTERM, [](int /*sig*/){ qInfo("Quitting on SIGTERM"); qApp->quit(); });
   signal(SIGINT, [](int /*sig*/){ qInfo("Quitting on SIGINT"); qApp->quit(); });
   signal(SIGHUP, [](int /*sig*/){ qInfo("Quitting on SIGHUP"); qApp->quit(); });
+
+  // As service is small and it starts via DBus, close it after relatively
+  // short period of time
+  QTimer timer;
+  timer.setInterval(60*1000);
+  timer.setSingleShot(true);
+  timer.connect(&timer, &QTimer::timeout, &app, &QCoreApplication::quit, Qt::QueuedConnection);
+  timer.start();
 
   return app.exec();
 }

@@ -30,7 +30,18 @@ make %{?_smp_mflags}
 rm -rf %{buildroot}
 %make_install
 
+# systemd unit
+mkdir -p %{buildroot}%{_unitdir}
+install -t %{buildroot}%{_unitdir} --mode=644 systemd/sailfish-device-encryption-community-service.service
+
+%post
+systemctl restart sailfish-device-encryption-community-service.service || true
+
+%postun
+systemctl stop sailfish-device-encryption-community-service.service || true
+
 %files
 %defattr(-,root,root,-)
 %{_bindir}
 %{_datadir}/dbus-1
+%{_unitdir}

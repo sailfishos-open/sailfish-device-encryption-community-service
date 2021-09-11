@@ -1,0 +1,5 @@
+[D-BUS Service]
+Name=org.sailfishos.open.device.encryption
+Exec=/bin/false
+User=root
+SystemdService=sailfish-device-encryption-community-service.service
