@@ -39,6 +39,13 @@ public slots:
                    QString controlPassword, QString controlType,
                    QString newPassword, QString newType,
                    const QDBusMessage &message);
+  bool RemovePassword(QString id,
+                      QString controlPassword, QString controlType,
+                      QString removedPassword, QString removedType,
+                      const QDBusMessage &message);
+  bool TestPassword(QString id,
+                    QString controlPassword, QString controlType,
+                    const QDBusMessage &message);
 
 signals:
 

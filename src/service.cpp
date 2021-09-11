@@ -13,11 +13,11 @@
 // used to check if device was found
 #define DEVCHECK(d, ret) \
   if (d == nullptr) \
-    { \
-      QDBusMessage error = message.createErrorReply(QDBusError::InvalidArgs, tr("Could not find device")); \
-      BUS.send(error); \
-      return ret; \
-    } \
+{ \
+  QDBusMessage error = message.createErrorReply(QDBusError::InvalidArgs, tr("Could not find device")); \
+  BUS.send(error); \
+  return ret; \
+  } \
 
 
 Service::Service(QObject *parent) : QObject(parent)
@@ -118,4 +118,55 @@ bool Service::AddPassword(QString id,
     }
 
   return true;
+}
+
+bool Service::RemovePassword(QString id,
+                             QString controlPassword, QString controlType,
+                             QString removedPassword, QString removedType,
+                             const QDBusMessage &message)
+{
+  DevEnc::Device *d = DevEnc::DeviceList::instance()->device(id);
+  DEVCHECK(d, false);
+
+  QSharedPointer<DevEnc::Password> controlPwd(makePassword(controlType));
+  QSharedPointer<DevEnc::Password> removedPwd(makePassword(removedType));
+
+  if (!controlPwd || !removedPwd)
+    {
+      QDBusMessage error = message.createErrorReply(QDBusError::InvalidArgs, tr("Unknown password type"));
+      BUS.send(error);
+      return false;
+    }
+
+  controlPwd->setPassword(controlPassword);
+  removedPwd->setPassword(removedPassword);
+
+  if (!d->removePassword(controlPwd.data(), removedPwd.data()))
+    {
+      QDBusMessage error = message.createErrorReply(QDBusError::InvalidArgs, tr("Failed to remove password. Check that the control and removed passwords are correct."));
+      BUS.send(error);
+      return false;
+    }
+
+  return true;
+}
+
+bool Service::TestPassword(QString id,
+                           QString controlPassword, QString controlType,
+                           const QDBusMessage &message)
+{
+  DevEnc::Device *d = DevEnc::DeviceList::instance()->device(id);
+  DEVCHECK(d, false);
+
+  QSharedPointer<DevEnc::Password> controlPwd(makePassword(controlType));
+
+  if (!controlPwd)
+    {
+      QDBusMessage error = message.createErrorReply(QDBusError::InvalidArgs, tr("Unknown password type"));
+      BUS.send(error);
+      return false;
+    }
+
+  controlPwd->setPassword(controlPassword);
+  return d->testPassword(controlPwd.data());
 }
