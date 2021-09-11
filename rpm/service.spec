@@ -11,9 +11,11 @@ BuildRequires:  pkgconfig(sailfishapp) >= 1.0.2
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(Qt5Quick)
+BuildRequires:  pkgconfig(Qt5DBus)
 BuildRequires:  libsfosdevenc-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  cmake
+BuildRequires:  qt5-qttools-linguist
 
 %description
 %summary
@@ -45,3 +47,4 @@ systemctl stop sailfish-device-encryption-community-service.service || true
 %{_bindir}
 %{_datadir}/dbus-1
 %{_unitdir}
+%{_datadir}/%{name}
