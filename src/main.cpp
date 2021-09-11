@@ -36,7 +36,7 @@ int main(int argc, char **argv)
   // As service is small and it starts via DBus, close it after relatively
   // short period of time
   QTimer timer;
-  timer.setInterval(60*1000);
+  timer.setInterval(5*60*1000);
   timer.setSingleShot(true);
   timer.connect(&timer, &QTimer::timeout, &app, &QCoreApplication::quit, Qt::QueuedConnection);
   timer.start();
